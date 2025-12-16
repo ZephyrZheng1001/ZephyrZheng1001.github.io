@@ -3,10 +3,107 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>我的 GitHub Pages 网站</title>
+  <meta name="description" content="个人主页 - ZephyrZheng1001 的作品与联系信息" />
+  <title>ZephyrZheng1001 — 个人主页</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- 样式 -->
+  <link rel="stylesheet" href="assets/styles.css">
+
+  <!-- favicon 建议添加：/assets/img/favicon.ico -->
 </head>
 <body>
-  <h1>你好，GitHub Pages！</h1>
-  <p>这是我的静态网页，部署在 GitHub Pages 上。</p>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img class="avatar" src="https://github.com/ZephyrZheng1001.png" alt="头像" width="48" height="48">
+        <span class="name">ZephyrZheng1001</span>
+      </a>
+
+      <nav class="nav">
+        <a href="#about">关于</a>
+        <a href="#projects">项目</a>
+        <a href="#contact">联系</a>
+        <button id="theme-toggle" aria-label="切换主题">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <h1>你好，我是 Zephyr</h1>
+          <p class="lead">前端爱好者 / 学习者 · 这里展示我的项目与联系方式。</p>
+          <p>
+            <a class="btn" href="#projects">查看项目</a>
+            <a class="btn ghost" href="#contact">联系我</a>
+          </p>
+        </div>
+        <div class="hero-card" aria-hidden="true">
+          <!-- 占位卡片，可以换成项目缩略图 -->
+          <div class="card">
+            <h3>最近项目</h3>
+            <p>简洁的 GitHub Pages 个人主页模板</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="container section">
+      <h2>关于我</h2>
+      <p>这里可以写一段 2-3 句的自我介绍（技术栈、兴趣、当前在做的事）。建议 1-2 行精炼描述。</p>
+    </section>
+
+    <section id="projects" class="container section">
+      <h2>项目</h2>
+      <div class="grid">
+        <article class="project">
+          <h3>项目 1</h3>
+          <p>项目简述。可以放 GitHub 链接与演示链接。</p>
+          <p><a href="#" class="link">查看仓库 →</a></p>
+        </article>
+        <article class="project">
+          <h3>项目 2</h3>
+          <p>项目简述</p>
+          <p><a href="#" class="link">查看仓库 →</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="container section">
+      <h2>联系</h2>
+      <p>邮箱：<a href="mailto:your-email@example.com">your-email@example.com</a></p>
+      <p>或者通过 <a href="https://github.com/ZephyrZheng1001" target="_blank" rel="noopener">GitHub</a> 联系我。</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© 2025 ZephyrZheng1001 · 使用 GitHub Pages 部署</small>
+    </div>
+  </footer>
+
+  <script>
+    // 简单主题切换（暗色/亮色），状态保存在 localStorage
+    const btn = document.getElementById('theme-toggle');
+    const current = localStorage.getItem('theme') || 'light';
+    if (current === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+    btn.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        btn.textContent = '🌙';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        btn.textContent = '☀️';
+      }
+    });
+  </script>
 </body>
 </html>
