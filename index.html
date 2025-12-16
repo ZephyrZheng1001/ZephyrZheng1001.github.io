@@ -77,6 +77,12 @@
       <h2>联系</h2>
       <p>邮箱：<a href="mailto:2453374@tongji.edu.cn">2453374@tongji.edu.cn</a></p>
       <p>或者通过 <a href="https://github.com/ZephyrZheng1001" target="_blank" rel="noopener">GitHub</a> 联系我。</p>
+      <p>电话：<a href="tel:+8618869344383">+86-18869344383</a></p>
+      <p>微信：<span class="contact-copy" id="wechat-id">ZephyrZheng1001</span>
+        <button class="copy-btn" id="copy-wechat" aria-label="复制微信号">复制</button>
+        <span class="copy-feedback" id="copy-feedback" aria-hidden="true"></span>
+      </p>
+      <p>QQ：<a href="tencent://message/?uin=2531391463&Site=&Menu=yes">2531391463</a></p>
     </section>
   </main>
 
@@ -104,6 +110,34 @@
         btn.textContent = '☀️';
       }
     });
+
+    // 复制微信号功能
+    const copyBtn = document.getElementById('copy-wechat');
+    const copyFeedback = document.getElementById('copy-feedback');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async () => {
+        const wechat = document.getElementById('wechat-id').textContent.trim();
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(wechat);
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = wechat;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+          }
+          copyFeedback.textContent = '已复制';
+          copyFeedback.setAttribute('aria-hidden', 'false');
+          setTimeout(() => { copyFeedback.textContent = ''; copyFeedback.setAttribute('aria-hidden', 'true'); }, 2000);
+        } catch (err) {
+          copyFeedback.textContent = '复制失败';
+          copyFeedback.setAttribute('aria-hidden', 'false');
+          setTimeout(() => { copyFeedback.textContent = ''; copyFeedback.setAttribute('aria-hidden', 'true'); }, 2000);
+        }
+      });
+    }
   </script>
 </body>
 </html>
