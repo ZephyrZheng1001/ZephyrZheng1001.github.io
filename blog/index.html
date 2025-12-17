@@ -5,6 +5,28 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>博客 · ZephyrZheng1001</title>
   <link rel="stylesheet" href="../assets/styles.css">
+
+  <!-- 关键脚本：立即应用主题，避免闪烁 -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const autoPref = localStorage.getItem('theme-auto') === 'true';
+      const prefersQuery = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+
+      let themeToApply = 'dark'; // 默认暗色
+      if (autoPref) {
+        themeToApply = (prefersQuery && prefersQuery.matches) ? 'dark' : 'light';
+      } else if (savedTheme) {
+        themeToApply = savedTheme;
+      } else {
+        themeToApply = (prefersQuery && prefersQuery.matches) ? 'dark' : 'light';
+      }
+
+      if (themeToApply === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
 </head>
 <body>
   <header class="site-header">
