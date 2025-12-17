@@ -1,39 +1,15 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="个人主页 - ZephyrZheng1001 的作品与联系信息" />
-  <title>ZephyrZheng1001 — 个人主页</title>
-
-  <!-- Google Font -->
+  <title>ZephyrZheng1001  个人主页</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-  <!-- 样式 -->
   <link rel="stylesheet" href="assets/styles.css">
-
-  <!-- favicon 建议添加：/assets/img/favicon.ico -->
-
-  <!-- 关键脚本：立即应用主题，避免闪烁 -->
   <script>
-    (function() {
-      const savedTheme = localStorage.getItem('theme');
-      const autoPref = localStorage.getItem('theme-auto') === 'true';
-      const prefersQuery = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
-
-      let themeToApply = 'dark'; // 默认暗色
-      if (autoPref) {
-        themeToApply = (prefersQuery && prefersQuery.matches) ? 'dark' : 'light';
-      } else if (savedTheme) {
-        themeToApply = savedTheme;
-      } else {
-        themeToApply = (prefersQuery && prefersQuery.matches) ? 'dark' : 'light';
-      }
-
-      if (themeToApply === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-    })();
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
   </script>
 </head>
 <body>
@@ -43,178 +19,88 @@
         <img class="avatar" src="https://github.com/ZephyrZheng1001.png" alt="头像" width="48" height="48">
         <span class="name">ZephyrZheng1001</span>
       </a>
-
       <nav class="nav">
         <a href="#about">关于</a>
-        <a href="#hobbies">爱好</a>
-        <a href="#awards">得奖</a>
         <a href="#projects">项目</a>
         <a href="#blog">博客</a>
         <a href="#contact">联系</a>
-        <button id="theme-auto-toggle" aria-pressed="false" title="跟随系统主题">自动</button>
         <button id="theme-toggle" aria-label="切换主题">🌙</button>
       </nav>
     </div>
   </header>
-
   <main>
     <section class="hero">
       <div class="container hero-inner">
         <div class="hero-text">
           <h1>你好，我是 Zephyr</h1>
-          <p class="lead">游戏开发爱好者/学习者 · 这里展示我的项目与联系方式。</p>
-          <p>
-            <a class="btn" href="#projects">查看项目</a>
-            <a class="btn ghost" href="#contact">联系我</a>
-          </p>
+          <p class="lead">游戏开发爱好者/学习者  这里展示我的项目与联系方式。</p>
+          <p><a class="btn" href="#projects">查看项目</a> <a class="btn ghost" href="#contact">联系我</a></p>
         </div>
         <div class="hero-card" aria-hidden="true">
-          <!-- 占位卡片，可以换成项目缩略图 -->
-          <div class="card">
-            <h3>最近项目</h3>
-            <p>简洁的 GitHub Pages 个人主页模板</p>
-          </div>
+          <div class="card"><h3>最近项目</h3><p>简洁的 GitHub Pages 个人主页模板</p></div>
         </div>
       </div>
     </section>
-
-    <section id="blog" class="container section">
-      <h2>博客</h2>
-      <p>这里记录我的笔记、技术文章与心得。</p>
-      <ul class="blog-list">
-        <li><a href="#">示例文章：如何开始游戏引擎开发</a><small> — 2025-01-01</small></li>
-        <li><a href="#">示例笔记：渲染管线入门</a><small> — 2025-02-10</small></li>
-      </ul>
-      <p><a href="/blog/" class="link">查看所有博客 →</a></p>
-    </section>
-
     <section id="about" class="container section">
       <h2>关于我</h2>
       <p>我是郑智毅(Zephyr Zheng)，就读于同济大学，现在正在学习计算机图形学，致力于成为一名优秀的游戏引擎开发人员。</p>
-    </section>
-
-    <section id="hobbies" class="container section">
-      <h2>个人爱好</h2>
-      <ul class="hobbies-list">
-        <li>吉他</li>
-        <li>唱歌</li>
-      </ul>
-    </section>
-
-    <section id="awards" class="container section">
-      <h2>获奖情况</h2>
+      <h3>个人爱好</h3>
+      <ul class="hobbies-list"><li>吉他🎸</li><li>唱歌🎤</li></ul>
+      <h3>获奖情况</h3>
       <ul class="awards-list">
-        <li><strong>同济大学第三十九届十大歌手</strong></li>
-        <li><strong>2025年全国数学建模大赛上海市二等奖</strong></li>
+        <li><strong><a href="https://mp.weixin.qq.com/s?__biz=MjM5NDI0ODE2MQ==&mid=2650830789&idx=1&sn=000af280bbd3bc11bc3db58e10cd62f6&chksm=bc4dd5de011742fd949fe82c0a776d51e2ae0d4f3eb81c5a58d491a12c3df98fb992f226d973&scene=27" target="_blank" rel="noopener">同济大学第三十九届十大歌手</a></strong></li>
+        <li><strong><a href="https://www.mcm.edu.cn/" target="_blank" rel="noopener">2025年全国数学建模大赛上海市二等奖</a></strong></li>
       </ul>
     </section>
-
+    <section id="blog" class="container section">
+      <h2>博客</h2>
+      <p>这里记录我的笔记、技术文章与心得。</p>
+      <ul class="blog-list"><li><a href="blog/sample-post.html">示例文章：如何开始游戏引擎开发</a><small>  2025-01-01</small></li></ul>
+      <p><a href="blog/" class="link">查看所有博客 </a></p>
+    </section>
     <section id="projects" class="container section">
       <h2>项目</h2>
       <div class="grid">
         <article class="project">
           <h3>项目 1</h3>
           <p>项目简述。可以放 GitHub 链接与演示链接。</p>
-          <p><a href="#" class="link">查看仓库 →</a></p>
+          <p><a href="#" class="link">查看仓库 </a></p>
         </article>
         <article class="project">
           <h3>项目 2</h3>
           <p>项目简述</p>
-          <p><a href="#" class="link">查看仓库 →</a></p>
+          <p><a href="#" class="link">查看仓库 </a></p>
         </article>
       </div>
     </section>
-
     <section id="contact" class="container section">
       <h2>联系</h2>
       <p>邮箱：<a href="mailto:2453374@tongji.edu.cn">2453374@tongji.edu.cn</a></p>
       <p>或者通过 <a href="https://github.com/ZephyrZheng1001" target="_blank" rel="noopener">GitHub</a> 联系我。</p>
       <p>电话：<a href="tel:+8618869344383">+86-18869344383</a></p>
-      <p>微信：<span class="contact-copy" id="wechat-id">ZephyrZheng1001</span>
-        <button class="copy-btn" id="copy-wechat" aria-label="复制微信号">复制</button>
-        <span class="copy-feedback" id="copy-feedback" aria-hidden="true"></span>
-      </p>
-      <p>QQ：<span class="contact-copy" id="qq-id">2531391463</span>
-        <button class="copy-btn" id="copy-qq" aria-label="复制QQ号">复制</button>
-        <span class="copy-feedback" id="copy-feedback-qq" aria-hidden="true"></span>
-      </p>
+      <p>微信：<span class="contact-copy" id="wechat-id">ZephyrZheng1001</span> <button class="copy-btn" id="copy-wechat" aria-label="复制微信号">复制</button> <span class="copy-feedback" id="copy-feedback" aria-hidden="true"></span></p>
+      <p>QQ：<span class="contact-copy" id="qq-id">2531391463</span> <button class="copy-btn" id="copy-qq" aria-label="复制QQ号">复制</button> <span class="copy-feedback" id="copy-feedback-qq" aria-hidden="true"></span></p>
     </section>
   </main>
-
   <footer class="site-footer">
-    <div class="container">
-      <small>© 2025 ZephyrZheng1001 · 使用 GitHub Pages 部署</small>
-    </div>
+    <div class="container"><small> 2025 ZephyrZheng1001  使用 GitHub Pages 部署</small></div>
   </footer>
-
   <script>
-    // 主题切换与“自动跟随系统”开关
     const btn = document.getElementById('theme-toggle');
-    const autoBtn = document.getElementById('theme-auto-toggle');
-    const prefersQuery = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
-
-    function applyTheme(theme) {
-      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-      else document.documentElement.removeAttribute('data-theme');
-      if (btn) btn.textContent = (theme === 'dark') ? '☀️' : '🌙';
+    function updateIcon() {
+      const theme = document.documentElement.getAttribute('data-theme');
+      if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
     }
-
-    const savedTheme = localStorage.getItem('theme');
-    const autoPref = localStorage.getItem('theme-auto') === 'true';
-
-    if (autoPref) {
-      const systemDark = prefersQuery ? prefersQuery.matches : false;
-      applyTheme(systemDark ? 'dark' : 'light');
-      if (autoBtn) { autoBtn.classList.add('active'); autoBtn.setAttribute('aria-pressed', 'true'); autoBtn.textContent = '自动·开'; }
-      if (prefersQuery) {
-        const mqHandler = (e) => applyTheme(e.matches ? 'dark' : 'light');
-        if (prefersQuery.addEventListener) prefersQuery.addEventListener('change', mqHandler);
-        else if (prefersQuery.addListener) prefersQuery.addListener(mqHandler);
-      }
-    } else {
-      const prefersDark = prefersQuery ? prefersQuery.matches : false;
-      const current = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
-      applyTheme(current);
-      if (autoBtn) { autoBtn.classList.remove('active'); autoBtn.setAttribute('aria-pressed', 'false'); autoBtn.textContent = '自动'; }
-    }
-
+    updateIcon();
     if (btn) {
       btn.addEventListener('click', () => {
-        // 手动切换将关闭自动跟随
-        localStorage.setItem('theme-auto', 'false');
-        if (autoBtn) { autoBtn.classList.remove('active'); autoBtn.setAttribute('aria-pressed', 'false'); autoBtn.textContent = '自动'; }
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        if (isDark) {
-          applyTheme('light');
-          localStorage.setItem('theme', 'light');
-        } else {
-          applyTheme('dark');
-          localStorage.setItem('theme', 'dark');
-        }
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateIcon();
       });
     }
-
-    if (autoBtn) {
-      autoBtn.addEventListener('click', () => {
-        const nowAuto = localStorage.getItem('theme-auto') === 'true';
-        if (nowAuto) {
-          // 关闭自动：保存当前主题为用户主题
-          localStorage.setItem('theme-auto', 'false');
-          const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-          localStorage.setItem('theme', cur);
-          autoBtn.classList.remove('active'); autoBtn.setAttribute('aria-pressed', 'false'); autoBtn.textContent = '自动';
-        } else {
-          // 开启自动：跟随系统并 remove 用户显式设置
-          localStorage.setItem('theme-auto', 'true');
-          localStorage.removeItem('theme');
-          const systemDark = prefersQuery ? prefersQuery.matches : false;
-          applyTheme(systemDark ? 'dark' : 'light');
-          autoBtn.classList.add('active'); autoBtn.setAttribute('aria-pressed', 'true'); autoBtn.textContent = '自动·开';
-        }
-      });
-    }
-
-    // 复制功能（微信 + QQ），统一处理并给出醒目反馈
     function setupCopy(buttonId, sourceId, feedbackId) {
       const btnEl = document.getElementById(buttonId);
       const feedbackEl = document.getElementById(feedbackId);
@@ -238,7 +124,6 @@
         }
       });
     }
-
     setupCopy('copy-wechat', 'wechat-id', 'copy-feedback');
     setupCopy('copy-qq', 'qq-id', 'copy-feedback-qq');
   </script>
