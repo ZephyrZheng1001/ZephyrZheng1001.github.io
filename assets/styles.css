@@ -140,3 +140,9 @@ h1{font-size:clamp(1.6rem,3.6vw,2.6rem);margin:0 0 8px}
 .blog-list li{background:var(--card);padding:12px;border-radius:10px;margin-bottom:10px;border:1px solid rgba(255,255,255,0.02)}
 .blog-list li a{color:var(--text);font-weight:600;text-decoration:none}
 .blog-list li small{color:var(--muted);margin-left:8px;font-weight:500;font-size:0.9rem}
+
+/* 爱好和获奖列表样式 */
+.hobbies-list, .awards-list{list-style:none;padding:0;margin:12px 0}
+.hobbies-list li, .awards-list li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.02);color:var(--text);font-weight:500}
+.hobbies-list li:last-child, .awards-list li:last-child{border-bottom:none}
+.awards-list li strong{color:var(--accent);font-weight:700}
