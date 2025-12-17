@@ -26,6 +26,7 @@
         <a href="#about">关于</a>
         <a href="#projects">项目</a>
         <a href="#contact">联系</a>
+        <button id="theme-auto-toggle" aria-pressed="false" title="跟随系统主题">自动</button>
         <button id="theme-toggle" aria-label="切换主题">🌙</button>
       </nav>
     </div>
@@ -82,7 +83,10 @@
         <button class="copy-btn" id="copy-wechat" aria-label="复制微信号">复制</button>
         <span class="copy-feedback" id="copy-feedback" aria-hidden="true"></span>
       </p>
-      <p>QQ：<a href="tencent://message/?uin=2531391463&Site=&Menu=yes">2531391463</a></p>
+      <p>QQ：<span class="contact-copy" id="qq-id">2531391463</span>
+        <button class="copy-btn" id="copy-qq" aria-label="复制QQ号">复制</button>
+        <span class="copy-feedback" id="copy-feedback-qq" aria-hidden="true"></span>
+      </p>
     </section>
   </main>
 
@@ -93,51 +97,99 @@
   </footer>
 
   <script>
-    // 简单主题切换（暗色/亮色），状态保存在 localStorage
+    // 主题切换与“自动跟随系统”开关
     const btn = document.getElementById('theme-toggle');
-    const current = localStorage.getItem('theme') || 'light';
-    if (current === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    const autoBtn = document.getElementById('theme-auto-toggle');
+    const prefersQuery = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
 
-    btn.addEventListener('click', () => {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      if (isDark) {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-        btn.textContent = '🌙';
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-        btn.textContent = '☀️';
+    function applyTheme(theme) {
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.removeAttribute('data-theme');
+      if (btn) btn.textContent = (theme === 'dark') ? '☀️' : '🌙';
+    }
+
+    const savedTheme = localStorage.getItem('theme');
+    const autoPref = localStorage.getItem('theme-auto') === 'true';
+
+    if (autoPref) {
+      const systemDark = prefersQuery ? prefersQuery.matches : false;
+      applyTheme(systemDark ? 'dark' : 'light');
+      if (autoBtn) { autoBtn.classList.add('active'); autoBtn.setAttribute('aria-pressed', 'true'); autoBtn.textContent = '自动·开'; }
+      if (prefersQuery) {
+        const mqHandler = (e) => applyTheme(e.matches ? 'dark' : 'light');
+        if (prefersQuery.addEventListener) prefersQuery.addEventListener('change', mqHandler);
+        else if (prefersQuery.addListener) prefersQuery.addListener(mqHandler);
       }
-    });
+    } else {
+      const prefersDark = prefersQuery ? prefersQuery.matches : false;
+      const current = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
+      applyTheme(current);
+      if (autoBtn) { autoBtn.classList.remove('active'); autoBtn.setAttribute('aria-pressed', 'false'); autoBtn.textContent = '自动'; }
+    }
 
-    // 复制微信号功能
-    const copyBtn = document.getElementById('copy-wechat');
-    const copyFeedback = document.getElementById('copy-feedback');
-    if (copyBtn) {
-      copyBtn.addEventListener('click', async () => {
-        const wechat = document.getElementById('wechat-id').textContent.trim();
-        try {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(wechat);
-          } else {
-            const ta = document.createElement('textarea');
-            ta.value = wechat;
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            document.body.removeChild(ta);
-          }
-          copyFeedback.textContent = '已复制';
-          copyFeedback.setAttribute('aria-hidden', 'false');
-          setTimeout(() => { copyFeedback.textContent = ''; copyFeedback.setAttribute('aria-hidden', 'true'); }, 2000);
-        } catch (err) {
-          copyFeedback.textContent = '复制失败';
-          copyFeedback.setAttribute('aria-hidden', 'false');
-          setTimeout(() => { copyFeedback.textContent = ''; copyFeedback.setAttribute('aria-hidden', 'true'); }, 2000);
+    if (btn) {
+      btn.addEventListener('click', () => {
+        // 手动切换将关闭自动跟随
+        localStorage.setItem('theme-auto', 'false');
+        if (autoBtn) { autoBtn.classList.remove('active'); autoBtn.setAttribute('aria-pressed', 'false'); autoBtn.textContent = '自动'; }
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          applyTheme('light');
+          localStorage.setItem('theme', 'light');
+        } else {
+          applyTheme('dark');
+          localStorage.setItem('theme', 'dark');
         }
       });
     }
+
+    if (autoBtn) {
+      autoBtn.addEventListener('click', () => {
+        const nowAuto = localStorage.getItem('theme-auto') === 'true';
+        if (nowAuto) {
+          // 关闭自动：保存当前主题为用户主题
+          localStorage.setItem('theme-auto', 'false');
+          const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+          localStorage.setItem('theme', cur);
+          autoBtn.classList.remove('active'); autoBtn.setAttribute('aria-pressed', 'false'); autoBtn.textContent = '自动';
+        } else {
+          // 开启自动：跟随系统并 remove 用户显式设置
+          localStorage.setItem('theme-auto', 'true');
+          localStorage.removeItem('theme');
+          const systemDark = prefersQuery ? prefersQuery.matches : false;
+          applyTheme(systemDark ? 'dark' : 'light');
+          autoBtn.classList.add('active'); autoBtn.setAttribute('aria-pressed', 'true'); autoBtn.textContent = '自动·开';
+        }
+      });
+    }
+
+    // 复制功能（微信 + QQ），统一处理并给出醒目反馈
+    function setupCopy(buttonId, sourceId, feedbackId) {
+      const btnEl = document.getElementById(buttonId);
+      const feedbackEl = document.getElementById(feedbackId);
+      if (!btnEl || !feedbackEl) return;
+      btnEl.addEventListener('click', async () => {
+        const text = document.getElementById(sourceId).textContent.trim();
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) await navigator.clipboard.writeText(text);
+          else {
+            const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+          }
+          feedbackEl.textContent = '已复制';
+          feedbackEl.classList.add('show');
+          feedbackEl.setAttribute('aria-hidden', 'false');
+          setTimeout(() => { feedbackEl.classList.remove('show'); feedbackEl.setAttribute('aria-hidden', 'true'); }, 1800);
+        } catch (err) {
+          feedbackEl.textContent = '复制失败';
+          feedbackEl.classList.add('show');
+          feedbackEl.setAttribute('aria-hidden', 'false');
+          setTimeout(() => { feedbackEl.classList.remove('show'); feedbackEl.setAttribute('aria-hidden', 'true'); }, 1800);
+        }
+      });
+    }
+
+    setupCopy('copy-wechat', 'wechat-id', 'copy-feedback');
+    setupCopy('copy-qq', 'qq-id', 'copy-feedback-qq');
   </script>
 </body>
 </html>

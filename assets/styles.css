@@ -1,10 +1,12 @@
 :root{
   --bg:#0f1724;
+  --bg-end:#021025;
   --card:#0b1220;
   --muted:#9aa4b2;
   --accent:#7c3aed;
   --accent-2:#06b6d4;
   --text:#e6eef8;
+  --transition-duration:0.35s;
   --container-padding:24px;
   --radius:12px;
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
@@ -15,6 +17,7 @@
   --card:#071428;
   --muted:#8b9bb1;
   --text:#eaf4ff;
+  --bg-end:#021025;
 }
 
 [data-theme="light"]{
@@ -24,17 +27,19 @@
   --text:#0b1220;
   --accent:#6d28d9;
   --accent-2:#0891b2;
+  --bg-end:#f0f4f8;
 }
 
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0;
-  background:linear-gradient(180deg,var(--bg),#021025 60%);
+  background:linear-gradient(180deg,var(--bg),var(--bg-end) 60%);
   color:var(--text);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   line-height:1.5;
+  transition:background var(--transition-duration) ease, color var(--transition-duration) ease;
 }
 
 .container{
@@ -55,8 +60,9 @@ body{
   top:0;
   backdrop-filter: blur(6px);
   z-index:20;
-  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.15));
+  background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.08));
   border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition:background var(--transition-duration) ease, border-color var(--transition-duration) ease;
 }
 
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text)}
@@ -87,6 +93,9 @@ h1{font-size:clamp(1.6rem,3.6vw,2.6rem);margin:0 0 8px}
 .hero-card{width:300px}
 .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
 
+/* 平滑过渡应用于使用主题颜色的常见元素 */
+.card, .project, .btn, .site-footer, .project h3 { transition: background var(--transition-duration) ease, color var(--transition-duration) ease, border-color var(--transition-duration) ease; }
+
 .section{padding:40px 0}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .project{background:var(--card);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
@@ -112,4 +121,9 @@ h1{font-size:clamp(1.6rem,3.6vw,2.6rem);margin:0 0 8px}
 /* 复制按钮样式 */
 .copy-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:6px 10px;border-radius:8px;margin-left:8px;cursor:pointer;font-weight:600}
 .copy-btn:hover{border-color:rgba(255,255,255,0.12)}
-.copy-feedback{margin-left:8px;color:var(--accent);font-weight:600;font-size:0.95rem}
+.copy-feedback{display:inline-block;margin-left:8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:6px 10px;border-radius:8px;font-weight:700;font-size:0.95rem;box-shadow:0 8px 24px rgba(12,12,40,0.25);opacity:0;transform:translateY(-6px);transition:opacity 0.18s ease, transform 0.18s ease}
+.copy-feedback.show{opacity:1;transform:translateY(0)}
+
+/* 自动跟随主题开关样式 */
+#theme-auto-toggle{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:6px 10px;border-radius:8px;margin-left:6px;cursor:pointer;font-weight:600}
+#theme-auto-toggle.active{background:linear-gradient(90deg, rgba(124,58,237,0.12), rgba(6,182,212,0.08));color:var(--text);border-color:rgba(255,255,255,0.12)}
