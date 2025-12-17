@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+  <meta name="description" content="BFS 广度优先搜索算法详解" />
+  <title>BFS 广度优先搜索 · ZephyrZheng1001</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <script>
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img class="avatar" src="https://github.com/ZephyrZheng1001.png" alt="头像" width="48" height="48">
+        <span class="name">ZephyrZheng1001</span>
+      </a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#projects">项目</a>
+        <a href="index.html">博客</a>
+        <a href="../index.html#contact">联系</a>
+        <button id="theme-toggle" aria-label="切换主题">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <article class="container section">
+      <h1>BFS 广度优先搜索</h1>
+      <p><small>发布于 2025-01-02</small></p>
+
+      <h2>什么是 BFS？</h2>
+      <p>广度优先搜索（Breadth-First Search，BFS）是一种图遍历算法，它从起点开始，逐层向外探索，先访问距离起点最近的节点。</p>
+
+      <h2>核心特点</h2>
+      <ul>
+        <li>使用队列（Queue）数据结构</li>
+        <li>按层级逐个访问节点</li>
+        <li>能找到最短路径</li>
+        <li>时间复杂度：O(V + E)，其中 V 是顶点数，E 是边数</li>
+      </ul>
+
+      <h2>算法步骤</h2>
+      <ol>
+        <li>从起点开始，将其加入队列</li>
+        <li>标记起点为已访问</li>
+        <li>当队列非空时：
+          <ul>
+            <li>取出队列首元素</li>
+            <li>处理该元素</li>
+            <li>将其未访问的相邻节点加入队列并标记为已访问</li>
+          </ul>
+        </li>
+        <li>重复直到队列为空</li>
+      </ol>
+
+      <h2>代码实现</h2>
+      <pre><code>from collections import deque
+
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+    result = []
+    
+    while queue:
+        node = queue.popleft()
+        result.append(node)
+        
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+    
+    return result
+
+# 使用示例
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+print(bfs(graph, 'A'))  # 输出: ['A', 'B', 'C', 'D', 'E', 'F']</code></pre>
+
+      <h2>应用场景</h2>
+      <ul>
+        <li>寻找最短路径</li>
+        <li>社交网络中的朋友推荐</li>
+        <li>网页爬虫</li>
+        <li>图的连通性检测</li>
+        <li>迷宫求解</li>
+      </ul>
+
+      <h2>时间复杂度分析</h2>
+      <ul>
+        <li><strong>时间复杂度：</strong>O(V + E)，每个顶点和边都被访问一次</li>
+        <li><strong>空间复杂度：</strong>O(V)，最坏情况下队列中存储所有顶点</li>
+      </ul>
+
+      <p><a href="index.html" class="link">← 返回博客列表</a></p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container"><small>© 2025 ZephyrZheng1001 使用 GitHub Pages 部署</small></div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('theme-toggle');
+    function updateIcon() {
+      const theme = document.documentElement.getAttribute('data-theme');
+      if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
+    }
+    updateIcon();
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateIcon();
+      });
+    }
+  </script>
+</body>
+</html>

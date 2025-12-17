@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+  <meta name="description" content="RPN 逆波兰表达式算法详解" />
+  <title>RPN 逆波兰表达式 · ZephyrZheng1001</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <script>
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img class="avatar" src="https://github.com/ZephyrZheng1001.png" alt="头像" width="48" height="48">
+        <span class="name">ZephyrZheng1001</span>
+      </a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#projects">项目</a>
+        <a href="index.html">博客</a>
+        <a href="../index.html#contact">联系</a>
+        <button id="theme-toggle" aria-label="切换主题">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <article class="container section">
+      <h1>RPN 逆波兰表达式</h1>
+      <p><small>发布于 2025-01-03</small></p>
+
+      <h2>什么是 RPN？</h2>
+      <p>逆波兰表达式（Reverse Polish Notation，RPN），也称后缀表达式，是一种数学符号表示法。操作符在操作数之后，不需要括号即可清晰表达运算顺序。</p>
+
+      <h2>RPN vs 中缀表达式</h2>
+      <table style="width:100%; border-collapse: collapse;">
+        <tr style="border-bottom: 1px solid var(--muted);">
+          <th style="padding: 8px; text-align: left;">中缀表达式</th>
+          <th style="padding: 8px; text-align: left;">RPN（后缀）</th>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--muted);">
+          <td style="padding: 8px;">3 + 4 * 5</td>
+          <td style="padding: 8px;">3 4 5 * +</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--muted);">
+          <td style="padding: 8px;">(5 + 3) * 2</td>
+          <td style="padding: 8px;">5 3 + 2 *</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px;">10 - (2 + 3)</td>
+          <td style="padding: 8px;">10 2 3 + -</td>
+        </tr>
+      </table>
+
+      <h2>核心特点</h2>
+      <ul>
+        <li>不需要括号表示优先级</li>
+        <li>易于计算机处理</li>
+        <li>使用栈数据结构</li>
+        <li>计算效率高，避免递归调用</li>
+      </ul>
+
+      <h2>评估 RPN 的算法</h2>
+      <ol>
+        <li>从左到右扫描表达式</li>
+        <li>如果是数字，入栈</li>
+        <li>如果是操作符，弹出两个操作数，执行运算，结果入栈</li>
+        <li>最后栈中只有一个元素，即结果</li>
+      </ol>
+
+      <h2>代码实现</h2>
+      <pre><code>def eval_rpn(tokens):
+    stack = []
+    operators = {'+', '-', '*', '/'}
+    
+    for token in tokens:
+        if token in operators:
+            # 弹出两个操作数
+            b = stack.pop()  # 第二个操作数
+            a = stack.pop()  # 第一个操作数
+            
+            # 执行运算
+            if token == '+':
+                result = a + b
+            elif token == '-':
+                result = a - b
+            elif token == '*':
+                result = a * b
+            elif token == '/':
+                result = int(a / b)  # 截断除法
+            
+            stack.append(result)
+        else:
+            # 数字入栈
+            stack.append(int(token))
+    
+    return stack[0]
+
+# 使用示例
+print(eval_rpn(['3', '4', '5', '*', '+']))  # 输出: 23 (3 + 4*5)
+print(eval_rpn(['5', '3', '+', '2', '*']))  # 输出: 16 ((5+3)*2)
+print(eval_rpn(['10', '2', '3', '+', '-']))  # 输出: 5 (10-(2+3))</code></pre>
+
+      <h2>中缀转 RPN</h2>
+      <p>使用调度场算法（Shunting-yard Algorithm）可以将中缀表达式转换为 RPN：</p>
+      <pre><code>def infix_to_rpn(expression):
+    precedence = {'+': 1, '-': 1, '*': 2, '/': 2}
+    stack = []
+    output = []
+    
+    for token in expression.split():
+        if token.isdigit():
+            output.append(token)
+        elif token in precedence:
+            while (stack and stack[-1] != '(' and 
+                   stack[-1] in precedence and 
+                   precedence[stack[-1]] >= precedence[token]):
+                output.append(stack.pop())
+            stack.append(token)
+        elif token == '(':
+            stack.append(token)
+        elif token == ')':
+            while stack[-1] != '(':
+                output.append(stack.pop())
+            stack.pop()  # 移除 '('
+    
+    while stack:
+        output.append(stack.pop())
+    
+    return output
+
+# 示例
+print(infix_to_rpn('3 + 4 * 5'))  # ['3', '4', '5', '*', '+']</code></pre>
+
+      <h2>应用场景</h2>
+      <ul>
+        <li>计算器实现</li>
+        <li>编译器中的表达式求值</li>
+        <li>栈机器的指令集</li>
+        <li>Excel 等电子表格软件内部</li>
+      </ul>
+
+      <h2>时间复杂度</h2>
+      <ul>
+        <li><strong>求值时间复杂度：</strong>O(n)，只需遍历一遍表达式</li>
+        <li><strong>空间复杂度：</strong>O(n)，栈最多存储所有元素</li>
+      </ul>
+
+      <p><a href="index.html" class="link">← 返回博客列表</a></p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container"><small>© 2025 ZephyrZheng1001 使用 GitHub Pages 部署</small></div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('theme-toggle');
+    function updateIcon() {
+      const theme = document.documentElement.getAttribute('data-theme');
+      if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
+    }
+    updateIcon();
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateIcon();
+      });
+    }
+  </script>
+</body>
+</html>
