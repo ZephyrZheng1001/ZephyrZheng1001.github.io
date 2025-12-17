@@ -25,15 +25,16 @@
 }
 
 [data-theme="light"]{
+  /* 亮主题：改为纯白背景和明亮色调 */
   --bg:#ffffff;
-  --bg-end:#f1f5f9;
+  --bg-end:#ffffff;
   --card:#ffffff;
-  --muted:#556070;
+  --muted:#6b7280;
   --text:#071322;
-  --accent:#6d28d9;
-  --accent-2:#0891b2;
-  --header-bg: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(245,248,252,0.9));
-  --header-border: rgba(11,18,32,0.06);
+  --accent:#f43f5e; /* 明亮珊瑚色 */
+  --accent-2:#06b6d4; /* 清爽青色 */
+  --header-bg: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.98));
+  --header-border: rgba(10,20,30,0.06);
 }
 
 *{box-sizing:border-box}
